@@ -2,6 +2,15 @@
 <html lang="en">
   <head>
     <title>Battery Status API tests</title>
+    <style>
+        body { margin-top: 0; padding-top: 0; font: 100% sans-serif; top: 0px; }
+        h1, h2, h3 { color: #005a9c; }
+        h1 { font: 170% sans-serif; }
+        h3 { font: 110% sans-serif; }
+        #success, #error, #log { font: 75% sans-serif; }
+        #success > div, #error > div, #log > div { border: 0; padding: 0px; }
+        .controls { border: dotted 1px gray; padding: 5px; margin-bottom: 10px; background-color: #f0f0f0; }
+    </style>
     <script>
     function success(msg) {
         document.getElementById('success') .innerHTML += '<div>' + msg + '</div>';
@@ -110,15 +119,25 @@
   </head>
   <body>
     <h1>Battery Status API tests</h1>
-    <h3>TODO: migrate tests to harness.js</h3>
-    <button onclick="test.battery.level()">test.battery.level()</button>
-    <button onclick="test.battery.charging()">test.battery.charging()</button>
-    <button onclick="test.battery.onlevelchange()">register onlevelchange handler</button>
-    <button onclick="test.battery.onchargingChange()">register onchargingchange handler</button>
-    <button onclick="test.battery.addEventListenerLevelChange()">addEventListener('levelchange')</button>
-    <button onclick="test.battery.removeEventListenerLevelChange()">removeEventListener('levelchange')</button>
-    <button onclick="test.battery.addEventListenerChargingChange()">addEventListener('chargingchange')</button>
-    <button onclick="test.battery.removeEventListenerChargingChange()">removeEventListener('chargingchange')</button>
+    <!-- TODO: migrate tests to harness.js -->
+    <div class="controls">
+        <div>
+            <button onclick="test.battery.level()">get .level</button>
+            <button onclick="test.battery.charging()">get .charging</button>
+        </div>
+        <div>
+            <button onclick="test.battery.onlevelchange()">add .onlevelchange handler</button>
+            <button onclick="test.battery.onchargingChange()">add .onchargingchange handler</button>
+        </div>
+        <div>
+            <button onclick="test.battery.addEventListenerLevelChange()">addEventListener('levelchange')</button>
+            <button onclick="test.battery.removeEventListenerLevelChange()">removeEventListener('levelchange')</button>
+        </div>
+        <div>
+            <button onclick="test.battery.addEventListenerChargingChange()">addEventListener('chargingchange')</button>
+            <button onclick="test.battery.removeEventListenerChargingChange()">removeEventListener('chargingchange')</button>
+        </div>
+    </div>
     <h3>Success:</h3>
     <div id="success"></div>
     <h3>Fail:</h3>
