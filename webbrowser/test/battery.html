@@ -61,8 +61,45 @@
                     fail('onchargingchange: ' + ex);
                 }
             }
+        },
+        addEventListenerLevelChange: function () {
+            try {
+                navigator.battery.addEventListener('levelchange', function () {
+                    success('addEventListener(\'levelchange\')');
+                });
+            } catch (ex) {
+                fail('addEventListener(\'levelchange\'): ' + ex);
+            }
+        },
+        removeEventListenerLevelChange: function () {
+            try {
+                navigator.battery.removeEventListener('levelchange', function () {
+                    success('removeEventListener(\'levelchange\')');
+                });
+            } catch (ex) {
+                fail('removeEventListener(\'levelchange\'): ' + ex);
+            }
         }
-    }
+        ,
+        addEventListenerChargingChange: function () {
+            try {
+                navigator.battery.addEventListener('chargingchange', function () {
+                    success('addEventListener(\'chargingchange\')');
+                });
+            } catch (ex) {
+                fail('addEventListener(\'chargingchange\'): ' + ex);
+            }
+        },
+        removeEventListenerChargingChange: function () {
+            try {
+                navigator.battery.removeEventListener('chargingchange', function () {
+                    success('removeEventListener(\'chargingchange\')');
+                });
+            } catch (ex) {
+                fail('removeEventListener(\'chargingchange\'): ' + ex);
+            }
+        }
+    };
     
     window.onload = function () {
         test.battery.onlevelchange('onload');
@@ -77,7 +114,11 @@
     <button onclick="test.battery.level()">test.battery.level()</button>
     <button onclick="test.battery.charging()">test.battery.charging()</button>
     <button onclick="test.battery.onlevelchange()">register onlevelchange handler</button>
-    <button onclick="test.battery.onchargingchange()">register onchargingchange handler</button>
+    <button onclick="test.battery.onchargingChange()">register onchargingchange handler</button>
+    <button onclick="test.battery.addEventListenerLevelChange()">addEventListener('levelchange')</button>
+    <button onclick="test.battery.removeEventListenerLevelChange()">removeEventListener('levelchange')</button>
+    <button onclick="test.battery.addEventListenerChargingChange()">addEventListener('chargingchange')</button>
+    <button onclick="test.battery.removeEventListenerChargingChange()">removeEventListener('chargingchange')</button>
     <h3>Success:</h3>
     <div id="success"></div>
     <h3>Fail:</h3>
