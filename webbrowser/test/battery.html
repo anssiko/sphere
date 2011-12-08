@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Battery Status API</title>
+    <script>
+    function success(msg) {
+        document.getElementById('success') .innerHTML += '<div>' + msg + '</div>';
+    }
+
+    function fail(msg) {
+        document.getElementById('error') .innerHTML += '<div>' + msg + '</div>';
+    }
+    
+    function log(msg) {
+        document.getElementById('log') .innerHTML += '<div>' + msg + '</div>';
+    }
+    
+    var test = {};
+    
+    test.battery = {
+        level: function () {
+            try {
+                // FIXME: Qt Simulator does not like typeof checking
+                //if (typeof navigator.battery.level === 'number') {
+                    success('navigator.battery.level: ' + navigator.battery.level);
+                //}
+            } catch (ex) {
+                fail('navigator.battery.level: ' + ex);
+            }
+        },
+        charging: function () {
+            try {
+                // FIXME: Qt Simulator does not like typeof checking
+                //if (typeof navigator.battery.charging === 'boolean') {
+                    success('navigator.battery.charging: ' + navigator.battery.charging);
+                //}
+            } catch (ex) {
+                fail('navigator.battery.charging: ' + ex);
+            }
+        },
+        onlevelchange: function (msg) {
+            // FIXME: navigator.battery is uninitialized onload
+            if (typeof navigator.battery === 'object') {
+                try {
+                    navigator.battery.onlevelchange = function () {
+                        success(msg || '' + 'onlevelchange, level: ' + navigator.battery.level);
+                    }
+                } catch (ex) {
+                    fail('onlevelchange: ' + ex);
+                }
+            }
+        },
+        onchargingchange: function (msg) {
+            // FIXME: navigator.battery is uninitialized onload
+            if (typeof navigator.battery === 'object') {
+                try {
+                    navigator.battery.onchargingchange = function () {
+                        success('onchargingchange, charging: ' + navigator.battery.charging);
+                    }
+                } catch (ex) {
+                    fail('onchargingchange: ' + ex);
+                }
+            }
+        }
+    }
+    
+    window.onload = function () {
+        test.battery.onlevelchange('onload');
+        test.battery.onchargingchange('onload');
+    }
+    
+    </script>
+  </head>
+  <body>
+    <h1>TODO: migrate tests to harness.js</h1>
+    <button onclick="test.battery.level()">test.battery.level()</button>
+    <button onclick="test.battery.charging()">test.battery.charging()</button>
+    <button onclick="test.battery.onlevelchange()">register onlevelchange handler</button>
+    <button onclick="test.battery.onchargingchange()">register onchargingchange handler</button>
+    <h3>Success:</h3>
+    <div id="success"></div>
+    <h3>Fail:</h3>
+    <div id="error"></div>
+    <h3>Log:</h3>
+    <div id="log"></div>
+  </body>
+</html>
