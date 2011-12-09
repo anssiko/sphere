@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Battery Status API tests</title>
+    <title>Battery Status API Tests</title>
     <style>
         body { margin-top: 0; padding-top: 0; font: 100% sans-serif; top: 0px; }
         h1, h2, h3 { color: #005a9c; }
@@ -74,7 +74,7 @@
         addEventListenerLevelChange: function () {
             try {
                 navigator.battery.addEventListener('levelchange', function () {
-                    success('addEventListener(\'levelchange\')');
+                    success('addEventListener(\'levelchange\'), level: ' + navigator.battery.level);
                 });
             } catch (ex) {
                 fail('addEventListener(\'levelchange\'): ' + ex);
@@ -93,7 +93,7 @@
         addEventListenerChargingChange: function () {
             try {
                 navigator.battery.addEventListener('chargingchange', function () {
-                    success('addEventListener(\'chargingchange\')');
+                    success('addEventListener(\'chargingchange\'), level: ' + navigator.battery.level);
                 });
             } catch (ex) {
                 fail('addEventListener(\'chargingchange\'): ' + ex);
@@ -118,7 +118,7 @@
     </script>
   </head>
   <body>
-    <h1>Battery Status API tests</h1>
+    <h1>Battery Status API Tests</h1>
     <!-- TODO: migrate tests to harness.js -->
     <div class="controls">
         <div>
