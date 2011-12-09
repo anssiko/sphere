@@ -7,56 +7,55 @@
         h1, h2, h3 { color: #005a9c; }
         h1 { font: 170% sans-serif; }
         h3 { font: 110% sans-serif; }
-        #success, #error, #log { font: 100% sans-serif; }
-        #success > div, #error > div, #log > div { border: 0; padding: 0px; }
+        #ok, #fail { font: 100% sans-serif; }
+        #ok > div, #fail > div { border: 0; padding: 0px; }
         .controls { border: dotted 1px gray; padding: 5px; margin-bottom: 10px; background-color: #f0f0f0; }
+        button { margin: 5px; }
     </style>
     <script>
-    function success(msg) {
-        document.getElementById('success') .innerHTML += '<div>' + msg + '</div>';
-    }
-
-    function fail(msg) {
-        document.getElementById('error') .innerHTML += '<div>' + msg + '</div>';
+    function ok(msg) {
+        document.getElementById('ok').innerHTML += '<div>' + msg + '</div>';
     }
     
-    function log(msg) {
-        document.getElementById('log') .innerHTML += '<div>' + msg + '</div>';
+    function fail(msg) {
+        document.getElementById('fail').innerHTML += '<div>' + msg + '</div>';
     }
     
     var test = {};
     
     test.battery = {
-        level: function () {
-            try {
-                // FIXME: Qt Simulator does not like typeof checking
-                //if (typeof navigator.battery.level === 'number') {
-                    success('navigator.battery.level: ' + navigator.battery.level);
-                //}
-            } catch (ex) {
-                fail('navigator.battery.level: ' + ex);
-            }
-        },
         charging: function () {
             try {
                 // FIXME: Qt Simulator does not like typeof checking
                 //if (typeof navigator.battery.charging === 'boolean') {
-                    success('navigator.battery.charging: ' + navigator.battery.charging);
+                    ok('navigator.battery.charging: ' + navigator.battery.charging);
                 //}
             } catch (ex) {
                 fail('navigator.battery.charging: ' + ex);
             }
         },
-        onlevelchange: function (msg) {
-            // FIXME: navigator.battery is uninitialized onload
-            if (typeof navigator.battery === 'object') {
-                try {
-                    navigator.battery.onlevelchange = function () {
-                        success(msg || '' + 'onlevelchange, level: ' + navigator.battery.level);
-                    }
-                } catch (ex) {
-                    fail('onlevelchange: ' + ex);
-                }
+        chargingTime: function () {
+            try {
+                ok('navigator.battery.chargingTime: ' + navigator.battery.chargingTime);
+            } catch (ex) {
+                fail('navigator.battery.chargingTime: ' + ex);
+            }
+        },
+        dischargingTime: function () {
+            try {
+                ok('navigator.battery.chargingTime: ' + navigator.battery.chargingTime);
+            } catch (ex) {
+                fail('navigator.battery.chargingTime: ' + ex);
+            }
+        },
+        level: function () {
+            try {
+                // FIXME: Qt Simulator does not like typeof checking
+                //if (typeof navigator.battery.level === 'number') {
+                    ok('navigator.battery.level: ' + navigator.battery.level);
+                //}
+            } catch (ex) {
+                fail('navigator.battery.level: ' + ex);
             }
         },
         onchargingchange: function (msg) {
@@ -64,17 +63,35 @@
             if (typeof navigator.battery === 'object') {
                 try {
                     navigator.battery.onchargingchange = function () {
-                        success('onchargingchange, charging: ' + navigator.battery.charging);
+                        ok(msg || '' + 'onchargingchange, charging: ' + navigator.battery.charging);
                     }
                 } catch (ex) {
                     fail('onchargingchange: ' + ex);
                 }
             }
         },
+        onchargingtimechange: function () {
+            // TODO
+        },
+        ondischargingtimechange: function () {
+            // TODO
+        },
+        onlevelchange: function (msg) {
+            // FIXME: navigator.battery is uninitialized onload
+            if (typeof navigator.battery === 'object') {
+                try {
+                    navigator.battery.onlevelchange = function () {
+                        ok(msg || '' + 'onlevelchange, level: ' + navigator.battery.level);
+                    }
+                } catch (ex) {
+                    fail('onlevelchange: ' + ex);
+                }
+            }
+        },
         addEventListenerLevelChange: function () {
             try {
                 navigator.battery.addEventListener('levelchange', function () {
-                    success('addEventListener(\'levelchange\'), level: ' + navigator.battery.level);
+                    ok('addEventListener(\'levelchange\'), level: ' + navigator.battery.level);
                 });
             } catch (ex) {
                 fail('addEventListener(\'levelchange\'): ' + ex);
@@ -83,7 +100,7 @@
         removeEventListenerLevelChange: function () {
             try {
                 navigator.battery.removeEventListener('levelchange', function () {
-                    success('removeEventListener(\'levelchange\')');
+                    ok('removeEventListener(\'levelchange\')');
                 });
             } catch (ex) {
                 fail('removeEventListener(\'levelchange\'): ' + ex);
@@ -93,7 +110,7 @@
         addEventListenerChargingChange: function () {
             try {
                 navigator.battery.addEventListener('chargingchange', function () {
-                    success('addEventListener(\'chargingchange\'), level: ' + navigator.battery.level);
+                    ok('addEventListener(\'chargingchange\'), level: ' + navigator.battery.level);
                 });
             } catch (ex) {
                 fail('addEventListener(\'chargingchange\'): ' + ex);
@@ -102,7 +119,7 @@
         removeEventListenerChargingChange: function () {
             try {
                 navigator.battery.removeEventListener('chargingchange', function () {
-                    success('removeEventListener(\'chargingchange\')');
+                    ok('removeEventListener(\'chargingchange\')');
                 });
             } catch (ex) {
                 fail('removeEventListener(\'chargingchange\'): ' + ex);
@@ -121,13 +138,17 @@
     <h1>Battery Status API Tests</h1>
     <!-- TODO: migrate tests to harness.js -->
     <div class="controls">
+        <h3>Attributes</h3>
         <div>
-            <button onclick="test.battery.level()">get .level</button>
-            <button onclick="test.battery.charging()">get .charging</button>
+            <button onclick="test.battery.level()">get level</button>
+            <button onclick="test.battery.charging()">get charging</button>
+            <button onclick="test.battery.chargingTime()">get chargingTime</button>
+            <button onclick="test.battery.dischargingTime()">get dischargingTime</button>
         </div>
+        <h3>Event handlers</h3>
         <div>
-            <button onclick="test.battery.onlevelchange()">add .onlevelchange handler</button>
-            <button onclick="test.battery.onchargingChange()">add .onchargingchange handler</button>
+            <button onclick="test.battery.onlevelchange()">add onlevelchange handler</button>
+            <button onclick="test.battery.onchargingChange()">add onchargingchange handler</button>
         </div>
         <div>
             <button onclick="test.battery.addEventListenerLevelChange()">addEventListener('levelchange')</button>
@@ -138,11 +159,9 @@
             <button onclick="test.battery.removeEventListenerChargingChange()">removeEventListener('chargingchange')</button>
         </div>
     </div>
-    <h3>Success:</h3>
-    <div id="success"></div>
-    <h3>Fail:</h3>
-    <div id="error"></div>
-    <h3>Log:</h3>
-    <div id="log"></div>
+    <h3>Passed:</h3>
+    <div id="ok"></div>
+    <h3>Failed:</h3>
+    <div id="fail"></div>
   </body>
 </html>
