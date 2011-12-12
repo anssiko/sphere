@@ -43,9 +43,9 @@
         },
         dischargingTime: function () {
             try {
-                ok('navigator.battery.chargingTime: ' + navigator.battery.chargingTime);
+                ok('navigator.battery.dischargingTime: ' + navigator.battery.dischargingTime);
             } catch (ex) {
-                fail('navigator.battery.chargingTime: ' + ex);
+                fail('navigator.battery.dischargingTime: ' + ex);
             }
         },
         level: function () {
@@ -63,7 +63,7 @@
             if (typeof navigator.battery === 'object') {
                 try {
                     navigator.battery.onchargingchange = function () {
-                        ok(msg || '' + 'onchargingchange, charging: ' + navigator.battery.charging);
+                        ok(msg || '' + 'onchargingchange, navigator.battery.charging: ' + navigator.battery.charging);
                     }
                 } catch (ex) {
                     fail('onchargingchange: ' + ex);
@@ -81,7 +81,7 @@
             if (typeof navigator.battery === 'object') {
                 try {
                     navigator.battery.onlevelchange = function () {
-                        ok(msg || '' + 'onlevelchange, level: ' + navigator.battery.level);
+                        ok(msg || '' + 'onlevelchange, navigator.battery.level: ' + navigator.battery.level);
                     }
                 } catch (ex) {
                     fail('onlevelchange: ' + ex);
@@ -91,7 +91,7 @@
         addEventListenerLevelChange: function () {
             try {
                 navigator.battery.addEventListener('levelchange', function () {
-                    ok('addEventListener(\'levelchange\'), level: ' + navigator.battery.level);
+                    ok('addEventListener(\'levelchange\'), navigator.battery.level: ' + navigator.battery.level);
                 });
             } catch (ex) {
                 fail('addEventListener(\'levelchange\'): ' + ex);
@@ -110,7 +110,7 @@
         addEventListenerChargingChange: function () {
             try {
                 navigator.battery.addEventListener('chargingchange', function () {
-                    ok('addEventListener(\'chargingchange\'), level: ' + navigator.battery.level);
+                    ok('addEventListener(\'chargingchange\'), navigator.battery.level: ' + navigator.battery.level);
                 });
             } catch (ex) {
                 fail('addEventListener(\'chargingchange\'): ' + ex);
